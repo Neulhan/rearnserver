@@ -1,3 +1,4 @@
+use super::header::Header;
 use super::method::{Method, MethodError};
 use super::QueryString;
 use std::convert::TryFrom;
@@ -9,6 +10,7 @@ use std::str::{self, Utf8Error};
 pub struct Request<'buf> {
     path: &'buf str,
     query_string: Option<QueryString<'buf>>,
+    header: Header<'buf>,
     method: Method,
 }
 
@@ -18,6 +20,9 @@ impl<'buf> Request<'buf> {
     }
     pub fn query_string(&self) -> Option<&QueryString> {
         self.query_string.as_ref()
+    }
+    pub fn header(&self) -> &Header {
+        &self.header
     }
     pub fn method(&self) -> &Method {
         &self.method
@@ -45,9 +50,12 @@ impl<'buf> TryFrom<&'buf [u8]> for Request<'buf> {
             path = &path[..i];
         }
 
+        let header = Header::from(request);
+
         Ok(Self {
             path,
             query_string,
+            header,
             method,
         })
     }

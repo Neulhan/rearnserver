@@ -5,6 +5,7 @@ pub use request::Request;
 pub use response::Response;
 pub use status_code::StatusCode;
 
+mod header;
 mod method;
 mod query_string;
 mod request;
