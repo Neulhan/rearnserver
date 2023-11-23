@@ -36,7 +36,7 @@ impl Server {
                                 Ok(request) => handler.handle_request(&request),
                                 Err(e) => handler.handle_bad_request(&e),
                             };
-                            response.send(&mut stream);
+                            response.send(&mut stream).ok();
                         }
                         Err(err) => println!("Err : {}", err),
                     }

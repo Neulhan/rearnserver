@@ -37,6 +37,14 @@ impl Handler for WebsiteHandler {
                     _ => Response::new(StatusCode::NotFound, None),
                 },
             },
+            Method::POST => match request.path() {
+                "/post-test" => {
+                    let body = request.body();
+                    dbg!(body);
+                    return Response::new(StatusCode::Ok, Some(String::from("OK")));
+                }
+                _ => Response::new(StatusCode::NotFound, None),
+            },
             _ => Response::new(StatusCode::NotFound, None),
         }
     }
